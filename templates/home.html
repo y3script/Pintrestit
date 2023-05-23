@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Pinterest Downloader</h1>
+<p style="text-align: center;"><br>Pinterest Downloader : Pinterest Downloader is a Online tool to <br>download any videos, images &amp; gif's from Pinterest.<br><br></p>
+<div class="input-group"><input class="form-control shadow-none" type="text"><button class="btn btn-primary" type="button">Download</button></div>
+<h3 style="margin-top: 20px;">How To Download</h3>
+<p style="text-align: left;"><br><strong>Step 1:-</strong> First of all, you can visit the website of <br>pinterest.com, then search video Or Picture on search box.<br><strong>Step 2:-</strong> Then after that click on any video or Picture you open and <strong>then copy the browser link</strong>.<br><strong>Step 3:-</strong> After copying the browser link, <strong>paste this link into the search box</strong> above, after paste the video link, <strong>click on the download button</strong>.<br><strong>Step 4:-</strong> After clicking on the download button, you can <strong>take the curser on the download link and right click by clicking save as .. You can download the video or The&nbsp;picture</strong>.<br><br></p>
+<script src='{{url_for("static",filename="assets/js/jquery-3.7.0.js")}}'></script>
+<script src='{{url_for("static",filename="assets/js/toastr.min.js")}}'></script>
+<script>
+    $("button").click(()=>{
+        let input = $("input").val()
+        $('.btn').prop('disabled', true);
+        $(".btn").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only">Loading...</span>')
+        $.post("http://127.0.0.1:5000/download",{"url":btoa(input)},(data)=>{
+            $('.btn').prop('disabled', false);
+            $(".btn").html("Download")
+            if (data.success) {
+                document.location.href = `/download?type=${data.type}&data=${btoa(data.link)}`
+            }else{
+                toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+                }
+                toastr["error"]("error downloading.", "error")
+            }
+        })
+    })
+</script>
+{% endblock %}
