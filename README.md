@@ -1,7 +1,7 @@
-# Pintrestit
+# Pinterestit
 <br>
 
-## Pintrest Downloader
+## Pinterest Downloader
 
 ## Installing requirements:
 
